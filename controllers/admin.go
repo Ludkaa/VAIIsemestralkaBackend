@@ -25,7 +25,7 @@ func CreateAdminTable(db *pg.DB) error {
 		log.Printf("Error while creating todo table, Reason: %v\n", createError)
 		return createError
 	}
-	log.Printf("Runner table created")
+	log.Printf("Admin table created")
 	return nil
 }
 
@@ -80,7 +80,7 @@ func CreateAdmin(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{
 		"status":  http.StatusCreated,
-		"message": "Runner created Successfully",
+		"message": "Admin created Successfully",
 	})
 	return
 }
@@ -94,14 +94,14 @@ func GetSingleAdmin(c *gin.Context) {
 		log.Printf("Error while getting a single todo, Reason: %v\n", err)
 		c.JSON(http.StatusNotFound, gin.H{
 			"status":  http.StatusNotFound,
-			"message": "Runner not found",
+			"message": "Admin not found",
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  http.StatusOK,
-		"message": "Single Runner",
+		"message": "Single Admin",
 		"data":    todo,
 	})
 	return
@@ -125,7 +125,7 @@ func EditAdmin(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  200,
-		"message": "Runner Edited Successfully",
+		"message": "Admin Edited Successfully",
 	})
 	return
 }
@@ -146,7 +146,7 @@ func DeleteAdmin(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  http.StatusOK,
-		"message": "Runner deleted successfully",
+		"message": "Admin deleted successfully",
 	})
 	return
 }

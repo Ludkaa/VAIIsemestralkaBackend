@@ -32,6 +32,8 @@ func Connect() *pg.DB {
 		os.Exit(100)
 	}
 	log.Printf("Connected to db")
+	controllers.CreateRunnerTable(db)
+	controllers.InitiateRDB(db)
 	controllers.CreateAdminTable(db)
 	controllers.InitiateDB(db)
 	return db

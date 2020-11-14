@@ -1,32 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ff74ad79-06c3-49c8-b4c4-20dbe9756846" name="Default Changelist" comment="" />
+    <list default="true" id="ff74ad79-06c3-49c8-b4c4-20dbe9756846" name="Default Changelist" comment="test">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/todo.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/runner.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="GOROOT" path="C:\Go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
   </component>
   <component name="ProjectId" id="1kHK1sd9BHuwiHLX9wSjXUp77Id" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ludka\Desktop\Škola\3.rocnik\VAII\backend" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="test" />
+    <option name="LAST_COMMIT_MESSAGE" value="test" />
+  </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="361" y="75" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605352830232">
+      <screen x="0" y="0" width="1536" height="832" />
+    </state>
+    <state x="361" y="75" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.832/-2560.0.2048.1122@0.0.1536.832" timestamp="1605352830232" />
+    <state x="549" y="158" key="FileChooserDialogImpl" timestamp="1605352523196">
+      <screen x="0" y="0" width="1536" height="832" />
+    </state>
+    <state x="549" y="158" key="FileChooserDialogImpl/0.0.1536.832/-2560.0.2048.1122@0.0.1536.832" timestamp="1605352523196" />
+    <state x="490" y="158" width="540" height="524" key="StructurePopup" timestamp="1605355624761">
+      <screen x="0" y="0" width="1536" height="832" />
+    </state>
+    <state x="490" y="158" width="540" height="524" key="StructurePopup/0.0.1536.832/-2560.0.2048.1122@0.0.1536.832" timestamp="1605355624761" />
+    <state x="361" y="149" key="Vcs.Push.Dialog.v2" timestamp="1605352635498">
+      <screen x="0" y="0" width="1536" height="832" />
+    </state>
+    <state x="361" y="149" key="Vcs.Push.Dialog.v2/0.0.1536.832/-2560.0.2048.1122@0.0.1536.832" timestamp="1605352635498" />
+    <state x="659" y="304" width="312" height="243" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1" timestamp="1605358923175">
+      <screen x="0" y="0" width="1536" height="832" />
+    </state>
+    <state x="659" y="304" width="312" height="243" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/0.0.1536.832/-2560.0.2048.1122@0.0.1536.832" timestamp="1605358923175" />
+    <state x="566" y="237" width="403" height="354" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog" timestamp="1605355872176">
+      <screen x="0" y="0" width="1536" height="832" />
+    </state>
+    <state x="566" y="237" width="403" height="354" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog/0.0.1536.832/-2560.0.2048.1122@0.0.1536.832" timestamp="1605355872176" />
+    <state x="246" y="90" width="873" height="678" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1605358811279">
+      <screen x="0" y="0" width="1536" height="832" />
+    </state>
+    <state x="246" y="90" width="873" height="678" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.0.1536.832/-2560.0.2048.1122@0.0.1536.832" timestamp="1605358811279" />
   </component>
 </project>

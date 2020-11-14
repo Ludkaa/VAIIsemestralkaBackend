@@ -7,16 +7,16 @@ import (
 	guuid "github.com/google/uuid"
 	"log"
 	"net/http"
-	"time"
 )
 
-type Todo struct {
-	ID        string    `json:"id"`
-	Title     string    `json:"title"`
-	Body      string    `json:"body"`
-	Completed string    `json:"completed"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+type Runner struct {
+	ID         string `json:"id"`
+	Meno       string `json:"meno"`
+	Priezvisko string `json:"priezvisko"`
+	Birthday   string `json:"birthday"`
+	Email      string `json:"email"`
+	Trat       string `json:"trat"`
+	Suhlas     string `json:"suhlas"`
 }
 
 // Create User Table
@@ -24,12 +24,12 @@ func CreateTodoTable(db *pg.DB) error {
 	opts := &orm.CreateTableOptions{
 		IfNotExists: true,
 	}
-	createError := db.CreateTable(&Todo{}, opts)
+	createError := db.CreateTable(&Runner{}, opts)
 	if createError != nil {
 		log.Printf("Error while creating todo table, Reason: %v\n", createError)
 		return createError
 	}
-	log.Printf("Todo table created")
+	log.Printf("Runner table created")
 	return nil
 }
 
@@ -41,7 +41,7 @@ func InitiateDB(db *pg.DB) {
 }
 
 func GetAllTodos(c *gin.Context) {
-	var todos []Todo
+	var todos []Runner
 	err := dbConnect.Model(&todos).Select()
 
 	if err != nil {
@@ -62,20 +62,24 @@ func GetAllTodos(c *gin.Context) {
 }
 
 func CreateTodo(c *gin.Context) {
-	var todo Todo
+	var todo Runner
 	c.BindJSON(&todo)
-	title := todo.Title
-	body := todo.Body
-	completed := todo.Completed
+	meno := todo.Meno
+	priezvisko := todo.Priezvisko
+	birthday := todo.Birthday
+	email := todo.Email
+	trat := todo.Trat
+	suhlas := todo.Suhlas
 	id := guuid.New().String()
 
-	insertError := dbConnect.Insert(&Todo{
-		ID:        id,
-		Title:     title,
-		Body:      body,
-		Completed: completed,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+	insertError := dbConnect.Insert(&Runner{
+		ID:         id,
+		Meno:       meno,
+		Priezvisko: priezvisko,
+		Birthday:   birthday,
+		Email:      email,
+		Trat:       trat,
+		Suhlas:     suhlas,
 	})
 	if insertError != nil {
 		log.Printf("Error while inserting new todo into db, Reason: %v\n", insertError)
@@ -88,28 +92,28 @@ func CreateTodo(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{
 		"status":  http.StatusCreated,
-		"message": "Todo created Successfully",
+		"message": "Runner created Successfully",
 	})
 	return
 }
 
 func GetSingleTodo(c *gin.Context) {
 	todoId := c.Param("todoId")
-	todo := &Todo{ID: todoId}
+	todo := &Runner{ID: todoId}
 	err := dbConnect.Select(todo)
 
 	if err != nil {
 		log.Printf("Error while getting a single todo, Reason: %v\n", err)
 		c.JSON(http.StatusNotFound, gin.H{
 			"status":  http.StatusNotFound,
-			"message": "Todo not found",
+			"message": "Runner not found",
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  http.StatusOK,
-		"message": "Single Todo",
+		"message": "Single Runner",
 		"data":    todo,
 	})
 	return
@@ -117,11 +121,11 @@ func GetSingleTodo(c *gin.Context) {
 
 func EditTodo(c *gin.Context) {
 	todoId := c.Param("todoId")
-	var todo Todo
+	meno := c.Param("meno")
+	var todo Runner
 	c.BindJSON(&todo)
-	completed := todo.Completed
 
-	_, err := dbConnect.Model(&Todo{}).Set("completed = ?", completed).Where("id = ?", todoId).Update()
+	_, err := dbConnect.Model(&Runner{}).Set("meno = ?", meno).Where("id = ?", todoId).Update()
 	if err != nil {
 		log.Printf("Error, Reason: %v\n", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -133,14 +137,14 @@ func EditTodo(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  200,
-		"message": "Todo Edited Successfully",
+		"message": "Runner Edited Successfully",
 	})
 	return
 }
 
 func DeleteTodo(c *gin.Context) {
 	todoId := c.Param("todoId")
-	todo := &Todo{ID: todoId}
+	todo := &Runner{ID: todoId}
 
 	err := dbConnect.Delete(todo)
 	if err != nil {
@@ -154,7 +158,7 @@ func DeleteTodo(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  http.StatusOK,
-		"message": "Todo deleted successfully",
+		"message": "Runner deleted successfully",
 	})
 	return
 }

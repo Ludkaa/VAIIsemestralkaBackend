@@ -32,7 +32,7 @@ func Connect() *pg.DB {
 		os.Exit(100)
 	}
 	log.Printf("Connected to db")
-	controllers.CreateTodoTable(db)
+	controllers.CreateAdminTable(db)
 	controllers.InitiateDB(db)
 	return db
 }

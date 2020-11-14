@@ -9,22 +9,18 @@ import (
 	"net/http"
 )
 
-type Runner struct {
-	ID         string `json:"id"`
-	Meno       string `json:"meno"`
-	Priezvisko string `json:"priezvisko"`
-	Birthday   string `json:"birthday"`
-	Email      string `json:"email"`
-	Trat       string `json:"trat"`
-	Suhlas     string `json:"suhlas"`
+type Admin struct {
+	ID    string `json:"id"`
+	Login string `json:"login"`
+	Heslo string `json:"heslo"`
 }
 
 // Create User Table
-func CreateRunnerTable(db *pg.DB) error {
+func CreateAdminTable(db *pg.DB) error {
 	opts := &orm.CreateTableOptions{
 		IfNotExists: true,
 	}
-	createError := db.CreateTable(&Runner{}, opts)
+	createError := db.CreateTable(&Admin{}, opts)
 	if createError != nil {
 		log.Printf("Error while creating todo table, Reason: %v\n", createError)
 		return createError
@@ -34,15 +30,15 @@ func CreateRunnerTable(db *pg.DB) error {
 }
 
 // INITIALIZE DB CONNECTION (TO AVOID TOO MANY CONNECTION)
-var dbRConnect *pg.DB
+var dbConnect *pg.DB
 
-func InitiateRDB(db *pg.DB) {
-	dbRConnect = db
+func InitiateDB(db *pg.DB) {
+	dbConnect = db
 }
 
-func GetAllRunners(c *gin.Context) {
-	var todos []Runner
-	err := dbRConnect.Model(&todos).Select()
+func GetAllAdmins(c *gin.Context) {
+	var todos []Admin
+	err := dbConnect.Model(&todos).Select()
 
 	if err != nil {
 		log.Printf("Error while getting all todos, Reason: %v\n", err)
@@ -61,25 +57,17 @@ func GetAllRunners(c *gin.Context) {
 	return
 }
 
-func CreateRunner(c *gin.Context) {
-	var todo Runner
+func CreateAdmin(c *gin.Context) {
+	var todo Admin
 	c.BindJSON(&todo)
-	meno := todo.Meno
-	priezvisko := todo.Priezvisko
-	birthday := todo.Birthday
-	email := todo.Email
-	trat := todo.Trat
-	suhlas := todo.Suhlas
+	login := todo.Login
+	heslo := todo.Heslo
 	id := guuid.New().String()
 
-	insertError := dbRConnect.Insert(&Runner{
-		ID:         id,
-		Meno:       meno,
-		Priezvisko: priezvisko,
-		Birthday:   birthday,
-		Email:      email,
-		Trat:       trat,
-		Suhlas:     suhlas,
+	insertError := dbConnect.Insert(&Admin{
+		ID:    id,
+		Login: login,
+		Heslo: heslo,
 	})
 	if insertError != nil {
 		log.Printf("Error while inserting new todo into db, Reason: %v\n", insertError)
@@ -97,10 +85,10 @@ func CreateRunner(c *gin.Context) {
 	return
 }
 
-func GetSingleRunner(c *gin.Context) {
+func GetSingleAdmin(c *gin.Context) {
 	todoId := c.Param("todoId")
-	todo := &Runner{ID: todoId}
-	err := dbRConnect.Select(todo)
+	todo := &Admin{ID: todoId}
+	err := dbConnect.Select(todo)
 
 	if err != nil {
 		log.Printf("Error while getting a single todo, Reason: %v\n", err)
@@ -119,13 +107,13 @@ func GetSingleRunner(c *gin.Context) {
 	return
 }
 
-func EditRunner(c *gin.Context) {
+func EditAdmin(c *gin.Context) {
 	todoId := c.Param("todoId")
 	meno := c.Param("meno")
-	var todo Runner
+	var todo Admin
 	c.BindJSON(&todo)
 
-	_, err := dbRConnect.Model(&Runner{}).Set("meno = ?", meno).Where("id = ?", todoId).Update()
+	_, err := dbConnect.Model(&Admin{}).Set("meno = ?", meno).Where("id = ?", todoId).Update()
 	if err != nil {
 		log.Printf("Error, Reason: %v\n", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -142,11 +130,11 @@ func EditRunner(c *gin.Context) {
 	return
 }
 
-func DeleteRunner(c *gin.Context) {
+func DeleteAdmin(c *gin.Context) {
 	todoId := c.Param("todoId")
-	todo := &Runner{ID: todoId}
+	todo := &Admin{ID: todoId}
 
-	err := dbRConnect.Delete(todo)
+	err := dbConnect.Delete(todo)
 	if err != nil {
 		log.Printf("Error while deleting a single todo, Reason: %v\n", err)
 		c.JSON(http.StatusInternalServerError, gin.H{

@@ -102,6 +102,7 @@ func AdminLogin(c *gin.Context) {
 			"status":  http.StatusUnauthorized,
 			"message": "bad",
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{

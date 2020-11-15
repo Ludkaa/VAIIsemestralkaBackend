@@ -17,24 +17,20 @@ func main() {
 	// Init Router
 	router := gin.Default()
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://dbtsp.jecool.net"},
+		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"GET", "DELETE", "POST", "PUT"},
 		AllowHeaders:     []string{"Origin"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
-		AllowOriginFunc: func(origin string) bool {
-			return origin == "http://dbtsp.jecool.net"
-		},
-		MaxAge: 12 * time.Hour,
+		MaxAge:           12 * time.Hour,
 	}))
 
 	// Route Handlers / Endpoints
 	routes.Routes(router)
 
 	port := os.Getenv("PORT")
-
 	if port == "" {
-		log.Fatal("$PORT must be set")
+		port = "4747"
 	}
 
 	log.Fatal(router.Run(":" + port))

@@ -5,6 +5,7 @@ import (
 	"github.com/go-pg/pg/v9"
 	"github.com/go-pg/pg/v9/orm"
 	guuid "github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
 )
@@ -37,11 +38,11 @@ func InitiateDB(db *pg.DB) {
 }
 
 func GetAllAdmins(c *gin.Context) {
-	var todos []Admin
-	err := dbConnect.Model(&todos).Select()
+	var admins []Admin
+	err := dbConnect.Model(&admins).Select()
 
 	if err != nil {
-		log.Printf("Error while getting all todos, Reason: %v\n", err)
+		log.Printf("Error while getting all admins, Reason: %v\n", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  http.StatusInternalServerError,
 			"message": "Something went wrong",
@@ -52,22 +53,24 @@ func GetAllAdmins(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status":  http.StatusOK,
 		"message": "All Todos",
-		"data":    todos,
+		"data":    admins,
 	})
 	return
 }
 
 func CreateAdmin(c *gin.Context) {
-	var todo Admin
-	c.BindJSON(&todo)
-	login := todo.Login
-	heslo := todo.Heslo
+	var admin Admin
+	c.ShouldBindJSON(&admin)
+	login := admin.Login
+	heslo := admin.Heslo
 	id := guuid.New().String()
+
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(heslo), 8)
 
 	insertError := dbConnect.Insert(&Admin{
 		ID:    id,
 		Login: login,
-		Heslo: heslo,
+		Heslo: string(hashedPassword),
 	})
 	if insertError != nil {
 		log.Printf("Error while inserting new todo into db, Reason: %v\n", insertError)
@@ -85,13 +88,36 @@ func CreateAdmin(c *gin.Context) {
 	return
 }
 
+func AdminLogin(c *gin.Context) {
+	var admin Admin
+	c.ShouldBindJSON(&admin)
+	login := admin.Login
+	heslo := admin.Heslo
+
+	admin2 := new(Admin)
+	err := dbConnect.Model(admin2).Where("login = ?", login).Select()
+
+	if err = bcrypt.CompareHashAndPassword([]byte(admin2.Heslo), []byte(heslo)); err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"status":  http.StatusUnauthorized,
+			"message": "bad",
+		})
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":  http.StatusOK,
+		"message": "ok",
+	})
+
+}
+
 func GetSingleAdmin(c *gin.Context) {
 	todoId := c.Param("todoId")
-	todo := &Admin{ID: todoId}
-	err := dbConnect.Select(todo)
+	admin := &Admin{ID: todoId}
+	err := dbConnect.Select(admin)
 
 	if err != nil {
-		log.Printf("Error while getting a single todo, Reason: %v\n", err)
+		log.Printf("Error while getting a single admin, Reason: %v\n", err)
 		c.JSON(http.StatusNotFound, gin.H{
 			"status":  http.StatusNotFound,
 			"message": "Admin not found",
@@ -102,18 +128,18 @@ func GetSingleAdmin(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status":  http.StatusOK,
 		"message": "Single Admin",
-		"data":    todo,
+		"data":    admin,
 	})
 	return
 }
 
 func EditAdmin(c *gin.Context) {
-	todoId := c.Param("todoId")
+	adminId := c.Param("adminId")
 	meno := c.Param("meno")
-	var todo Admin
-	c.BindJSON(&todo)
+	var admin Admin
+	c.ShouldBindJSON(&admin)
 
-	_, err := dbConnect.Model(&Admin{}).Set("meno = ?", meno).Where("id = ?", todoId).Update()
+	_, err := dbConnect.Model(&Admin{}).Set("meno = ?", meno).Where("id = ?", adminId).Update()
 	if err != nil {
 		log.Printf("Error, Reason: %v\n", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -131,12 +157,12 @@ func EditAdmin(c *gin.Context) {
 }
 
 func DeleteAdmin(c *gin.Context) {
-	todoId := c.Param("todoId")
-	todo := &Admin{ID: todoId}
+	adminId := c.Param("adminId")
+	admin := &Admin{ID: adminId}
 
-	err := dbConnect.Delete(todo)
+	err := dbConnect.Delete(admin)
 	if err != nil {
-		log.Printf("Error while deleting a single todo, Reason: %v\n", err)
+		log.Printf("Error while deleting a single admin, Reason: %v\n", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  http.StatusInternalServerError,
 			"message": "Something went wrong",

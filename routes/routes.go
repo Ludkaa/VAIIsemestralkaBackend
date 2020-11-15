@@ -11,6 +11,7 @@ func Routes(router *gin.Engine) {
 	router.GET("/", welcome)
 	router.GET("/admins", controllers.GetAllAdmins)
 	router.POST("/admin", controllers.CreateAdmin)
+	router.POST("/adminlogin", controllers.AdminLogin)
 	router.GET("/admin/:todoId", controllers.GetSingleAdmin)
 	router.PUT("/admin/:todoId", controllers.EditAdmin)
 	router.DELETE("/admin/:todoId", controllers.DeleteAdmin)

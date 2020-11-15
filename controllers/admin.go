@@ -109,7 +109,7 @@ func AdminLogin(c *gin.Context) {
 		"status":  http.StatusOK,
 		"message": "ok",
 	})
-
+	return
 }
 
 func GetSingleAdmin(c *gin.Context) {

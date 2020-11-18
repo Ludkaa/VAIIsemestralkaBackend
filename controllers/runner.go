@@ -121,8 +121,8 @@ func GetSingleRunner(c *gin.Context) {
 
 func EditRunner(c *gin.Context) {
 	todoId := c.Param("todoId")
-	todo := &Runner{ID: todoId}
-	meno := todo.Meno
+	meno := c.Param("meno")
+	var todo Runner
 	c.BindJSON(&todo)
 
 	_, err := dbRConnect.Model(&Runner{}).Set("meno = ?", meno).Where("id = ?", todoId).Update()

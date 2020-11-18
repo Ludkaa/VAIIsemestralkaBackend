@@ -120,12 +120,13 @@ func GetSingleRunner(c *gin.Context) {
 }
 
 func EditRunner(c *gin.Context) {
-	todoId := c.Param("todoId")
-	meno := c.Param("meno")
 	var todo Runner
-	c.BindJSON(&todo)
+	c.ShouldBindJSON(&todo)
+	meno := todo.Meno
+	priezvisko := todo.Priezvisko
+	todoId := c.Param("todoId")
 
-	_, err := dbRConnect.Model(&Runner{}).Set("meno = ?", meno).Where("id = ?", todoId).Update()
+	_, err := dbRConnect.Model(&Runner{}).Set("meno = ?, priezvisko = ?", meno, priezvisko).Where("id = ?", todoId).Update()
 	if err != nil {
 		log.Printf("Error, Reason: %v\n", err)
 		c.JSON(http.StatusInternalServerError, gin.H{

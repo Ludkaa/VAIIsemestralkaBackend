@@ -21,6 +21,12 @@ func Routes(router *gin.Engine) {
 	router.GET("/runner/:todoId", controllers.GetSingleRunner)
 	router.PUT("/runner/:todoId", controllers.EditRunner)
 	router.DELETE("/runner/:todoId", controllers.DeleteRunner)
+
+	router.GET("/referencie", controllers.GetAllReferencie)
+	router.POST("/referencie", controllers.CreateReferencie)
+	router.GET("/referencie/:todoId", controllers.GetSingleReferencie)
+	router.PUT("/referencie/:todoId", controllers.EditReferencie)
+	router.DELETE("/referencie/:todoId", controllers.DeleteReferencie)
 	router.NoRoute(notFound)
 }
 

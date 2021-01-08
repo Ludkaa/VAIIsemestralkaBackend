@@ -27,6 +27,8 @@ func Connect() *pg.DB {
 		controllers.InitiateRDB(db)
 		controllers.CreateAdminTable(db)
 		controllers.InitiateDB(db)
+		controllers.CreateReferencieTable(db)
+		controllers.InitiateRefDB(db)
 		return db
 	} else {
 		parsedUrl, err := url.Parse(urlOs)
@@ -51,6 +53,8 @@ func Connect() *pg.DB {
 		controllers.InitiateRDB(db)
 		controllers.CreateAdminTable(db)
 		controllers.InitiateDB(db)
+		controllers.CreateReferencieTable(db)
+		controllers.InitiateRefDB(db)
 		return db
 	}
 }

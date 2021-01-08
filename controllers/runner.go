@@ -124,9 +124,13 @@ func EditRunner(c *gin.Context) {
 	c.ShouldBindJSON(&todo)
 	meno := todo.Meno
 	priezvisko := todo.Priezvisko
+	birthday := todo.Birthday
+	email := todo.Email
+	trat := todo.Trat
+	suhlas := todo.Suhlas
 	todoId := c.Param("todoId")
 
-	_, err := dbRConnect.Model(&Runner{}).Set("meno = ?, priezvisko = ?", meno, priezvisko).Where("id = ?", todoId).Update()
+	_, err := dbRConnect.Model(&Runner{}).Set("meno = ?, priezvisko = ?, birthday = ?, email = ?, trat = ?, suhlas = ?", meno, priezvisko, birthday, email, trat, suhlas).Where("id = ?", todoId).Update()
 	if err != nil {
 		log.Printf("Error, Reason: %v\n", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
